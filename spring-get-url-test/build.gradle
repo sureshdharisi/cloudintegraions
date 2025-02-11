@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.palantir.docker' version '0.36.0'
+	
 }
 
 group = 'com.example.spring.query'
@@ -11,6 +13,13 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
+}
+
+docker {
+    name "${project.name}:${project.version}"
+    dockerfile file('Dockerfile')
+    files bootJar.archiveFile
+    buildArgs(['DEPENDENCY': 'build/dependency'])
 }
 
 repositories {
